@@ -1,0 +1,31 @@
+﻿<Window x:Class="UchProcAutoStation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UchProcAutoStation"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="412.987" Width="350" WindowStyle="None" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" BorderThickness="3" BorderBrush="AntiqueWhite" Icon="/Images/icon.png">
+    <Grid Background="#FFFFE0" MouseDown="Grid_MouseDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="49*"></RowDefinition>
+            <RowDefinition Height="370*"></RowDefinition>
+            
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="70" Height="40">
+            <Image x:Name="RollUp" Height="25" Width="23" Margin="7" 
+                   Source="/Images/roll up button icon.png" MouseDown="RollUp_MouseDown"/>
+            <Image x:Name="Close" Height="25" Width="23" 
+                   Source="/Images/close button icon.png" MouseDown="Close_MouseDown"/>
+        </StackPanel>
+        <Image Source="/Images/logo.png" Margin="0,0,0,250" Grid.Row="1"/>
+        <TextBox x:Name="LogBox" HorizontalAlignment="Left" Height="23" Margin="105,145,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" BorderBrush="Black"/>
+        <PasswordBox x:Name="PassBox" HorizontalAlignment="Left" Margin="105,202,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="23" BorderBrush="Black"/>
+        <Button Content="Войти" HorizontalAlignment="Left" Margin="212,255,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="Button_Click" BorderBrush="Black" Background="#FFD700"/>
+        <TextBlock HorizontalAlignment="Left" Margin="127,320,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top">
+            <Hyperlink Click="Hyperlink_Click">Наш сайт</Hyperlink>
+        </TextBlock>
+
+
+    </Grid>
+</Window>

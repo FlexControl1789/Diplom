@@ -1,0 +1,25 @@
+﻿<Window x:Class="UchProcAutoStation.HubMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UchProcAutoStation"
+        mc:Ignorable="d"
+        Title="Окно навигации" Height="237.532" Width="610.000" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" BorderThickness="3" BorderBrush="AntiqueWhite" Icon="/Images/icon.png">
+    <Grid Background="#FFFFE0" MouseDown="Grid_MouseDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27*"></RowDefinition>
+            <RowDefinition Height="194*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="70" Height="40">
+            <Image x:Name="RollUp" Height="25" Width="23" Margin="7" 
+                   Source="/Images/roll up button icon.png" MouseDown="RollUp_MouseDown"/>
+            <Image x:Name="Close" Height="25" Width="23" 
+                   Source="/Images/close button icon.png" MouseDown="Close_MouseDown"/>
+        </StackPanel>
+        <Button x:Name="PrepodIsntruct" Content="Преподаватели/Инструкторы" HorizontalAlignment="Left" Margin="19,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="171" Height="32" Click="PrepodIsntruct_Click" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Groups" IsEnabled="False" Content="Учебные группы" HorizontalAlignment="Left" Margin="199,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Height="32" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Predmets" IsEnabled="False" Content="Предметы" HorizontalAlignment="Left" Margin="339,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" Height="32" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Rasp" IsEnabled="False" Content="Расписание занятий" HorizontalAlignment="Left" Margin="464,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Height="32" BorderBrush="Black" Background="#FFD700"/>
+    </Grid>
+</Window>
