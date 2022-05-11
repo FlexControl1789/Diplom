@@ -48,5 +48,12 @@ namespace UchProcAutoStation
             prepod.Show();
             this.Close();
         }
+
+        private void Groups_Click(object sender, RoutedEventArgs e)
+        {
+            Groups gr = new Groups();
+            gr.Show();
+            this.Close();
+        }
     }
 }

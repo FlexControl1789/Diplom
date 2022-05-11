@@ -18,22 +18,29 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using UchProcAutoStation.Classes;
 
 namespace UchProcAutoStation
 {
     /// <summary>
-    /// Логика взаимодействия для Prepodavatel.xaml
+    /// Логика взаимодействия для Groups.xaml
     /// </summary>
-    public partial class Prepodavatel : Window
+    public partial class Groups : Window
     {
         string connectionString;
         SqlDataAdapter adapter;
         DataTable deliveryTable;
-        public Prepodavatel()
+        public Groups()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             connectionString = ConfigurationManager.ConnectionStrings["AutoSchool"].ConnectionString;
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
 
         private void RollUp_MouseDown(object sender, MouseButtonEventArgs e)
@@ -46,23 +53,12 @@ namespace UchProcAutoStation
             this.Close();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ComboFilter.Items.Add("Ф.И.О.");
-            ComboFilter.Items.Add("Специализация");
-            ComboFilter.Items.Add("Серия и номер паспорта");
-            ComboFilter.Items.Add("ИНН");
-            ComboFilter.Items.Add("Мобильный телефон");
-            ComboFilter.Items.Add("Mail");
-            string sql = "select FIO, TypeUch, PassSerNom, INN, Numbers, Mail from PrepodsInstructors";
+            ComboFilter.Items.Add("По названию");
+            ComboFilter.Items.Add("По категории");
+            ComboFilter.Items.Add("По размеру");
+            string sql = "select id_group, type_prav, size_group from Groups";
             deliveryTable = new DataTable();
             SqlConnection connection = null;
             try
@@ -85,32 +81,14 @@ namespace UchProcAutoStation
             }
         }
 
-        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Add_Click(object sender, RoutedEventArgs e)
         {
-            if (ComboFilter.SelectedIndex == 0)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[FIO] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 1)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[TypeUch] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 2)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[PassSerNom] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 3)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[INN] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 4)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[Numbers] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 5)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[Mail] LIKE '%{0}%'", FilterBox.Text);
-            }
+
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -124,60 +102,32 @@ namespace UchProcAutoStation
                 sqlConnection.Open();
                 var command = sqlConnection.CreateCommand();
                 command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "DelPrepod";
-                command.Parameters.AddWithValue("@Del_FIO", row["FIO"]);
-                command.Parameters.AddWithValue("@Del_TypeUch", row["TypeUch"]);
-                command.Parameters.AddWithValue("@Del_PassSerNom", row["PassSerNom"]);
-                command.Parameters.AddWithValue("@Del_INN", row["INN"]);
-                command.Parameters.AddWithValue("@Del_Numbers",row["Numbers"]);
-                command.Parameters.AddWithValue("@Del_Mail", row["Mail"]);
+                command.CommandText = "DelGroup";
+                command.Parameters.AddWithValue("@Del_id_group", row["id_group"]);
+                command.Parameters.AddWithValue("@Del_type_prav", row["type_prav"]);
+                command.Parameters.AddWithValue("@Del_size_group", row["size_group"]);
                 command.ExecuteNonQuery();
-                Prepodavatel er = new Prepodavatel();
-                er.Show();
+                Groups gr = new Groups();
+                gr.Show();
                 this.Close();
             }
             else MessageBox.Show("Перед удалением выберите строку", "Ошибка!");
         }
 
-        private void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            if (DGrid.SelectedItems.Count == 0) MessageBox.Show("Не выбрана строка для редактирования","Ошибка!");
-            else
-            {
-                Data.Edit_FIO = ((DataRowView)DGrid.SelectedItems[0]).Row["FIO"].ToString();
-                Data.Edit_TypeUch = ((DataRowView)DGrid.SelectedItems[0]).Row["TypeUch"].ToString();
-                Data.Edit_PassSerNom = ((DataRowView)DGrid.SelectedItems[0]).Row["PassSerNom"].ToString();
-                Data.Edit_INN = ((DataRowView)DGrid.SelectedItems[0]).Row["INN"].ToString();
-                Data.Edit_Numbers = ((DataRowView)DGrid.SelectedItems[0]).Row["Numbers"].ToString();
-                Data.Edit_Mail = ((DataRowView)DGrid.SelectedItems[0]).Row["Mail"].ToString();
-
-                EditPrepod EP = new EditPrepod();
-                EP.Show();
-                this.Close();
-            }
-        }
-
-        private void Add_Click(object sender, RoutedEventArgs e)
-        {
-            AddPrepod AP = new AddPrepod();
-            AP.Show();
-            this.Close();
-        }
-
         private void ToPDF_Click(object sender, RoutedEventArgs e)
         {
             Document document = new Document();
-            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream("C:/Users/Public/Desktop/Преподаватели и инструкторы Список.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream("C:/Users/Public/Desktop/Учебные группы Список.pdf", FileMode.Create));
             document.Open();
             BaseFont baseFont = BaseFont.CreateFont("C:\\Windows\\Fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
             iTextSharp.text.Font font = new iTextSharp.text.Font(baseFont, iTextSharp.text.Font.DEFAULTSIZE, iTextSharp.text.Font.NORMAL);
             PdfPTable table = new PdfPTable(DGrid.Columns.Count);
-            PdfPCell cell = new PdfPCell(new Phrase("Преподаватели/Инструкторы", font));
+            PdfPCell cell = new PdfPCell(new Phrase("Учебные группы", font));
             cell.Colspan = DGrid.Columns.Count;
             cell.HorizontalAlignment = 1;
             cell.Border = 0;
             table.AddCell(cell);
-            string[] name = { "ФИО", "Специализация", "Серия и номер паспорта", "ИНН", "Мобильный телефон", "Mail" };
+            string[] name = { "Группа", "Категория", "Размер группы" };
             for (int j = 0; j < DGrid.Columns.Count; j++)
             {
                 cell = new PdfPCell(new Phrase(name[j], font));
@@ -195,7 +145,7 @@ namespace UchProcAutoStation
             }
             document.Add(table);
             document.Close();
-            Process.Start("C:/Users/Public/Desktop/Преподаватели и инструкторы Список.pdf");
+            Process.Start("C:/Users/Public/Desktop/Учебные группы Список.pdf");
         }
 
         private void ToExcel_Click(object sender, RoutedEventArgs e)
@@ -224,16 +174,32 @@ namespace UchProcAutoStation
             }
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
+        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            HubMenu hub = new HubMenu();
-            hub.Show();
-            this.Close();
+            if (ComboFilter.SelectedIndex == 0)
+            {
+                deliveryTable.DefaultView.RowFilter = string.Format("[id_group] LIKE '%{0}%'", FilterBox.Text);
+            }
+            else if (ComboFilter.SelectedIndex == 1)
+            {
+                deliveryTable.DefaultView.RowFilter = string.Format("[type_prav] LIKE '%{0}%'", FilterBox.Text);
+            }
+            else if (ComboFilter.SelectedIndex == 2)
+            {
+                deliveryTable.DefaultView.RowFilter = string.Format("[size_group] lIKE '%{0}%'", FilterBox.Text);
+            }
         }
 
         private void ComboFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FilterBox.Clear();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            HubMenu hub = new HubMenu();
+            hub.Show();
+            this.Close();
         }
     }
 }

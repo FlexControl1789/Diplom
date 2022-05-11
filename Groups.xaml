@@ -1,11 +1,11 @@
-﻿<Window x:Class="UchProcAutoStation.Prepodavatel"
+﻿<Window x:Class="UchProcAutoStation.Groups"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UchProcAutoStation"
         mc:Ignorable="d"
-        Title="Преподаватели/Инструкторы" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" Icon="/Images/icon.png" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" BorderThickness="3" BorderBrush="AntiqueWhite">
+        Title="Groups" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" Icon="/Images/icon.png" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" BorderThickness="3" BorderBrush="AntiqueWhite">
     <Grid Background="#FFFFE0" MouseDown="Grid_MouseDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="27*"></RowDefinition>
@@ -19,12 +19,9 @@
         </StackPanel>
         <DataGrid x:Name="DGrid" HorizontalAlignment="Left" Height="277" Margin="10,108,0,0" Grid.Row="1" VerticalAlignment="Top" Width="780" HorizontalScrollBarVisibility="Auto" AutoGenerateColumns="False" VerticalScrollBarVisibility="Auto" CanUserAddRows="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ФИО" Binding="{Binding Path=FIO, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Специализация" Binding="{Binding Path=TypeUch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Серия номер пасспорта" Binding="{Binding Path=PassSerNom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="ИНН" Binding="{Binding Path=INN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=Numbers, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Mail" Binding="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Группа" Binding="{Binding Path=id_group, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Категория" Binding="{Binding Path=type_prav, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Размер группы" Binding="{Binding Path=size_group, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
