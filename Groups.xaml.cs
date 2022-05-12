@@ -18,6 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using UchProcAutoStation.Classes;
 
 namespace UchProcAutoStation
 {
@@ -83,12 +84,24 @@ namespace UchProcAutoStation
 
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-
+            AddGroup ag = new AddGroup();
+            ag.Show();
+            this.Close();
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
+            if (DGrid.SelectedItems.Count == 0) MessageBox.Show("Не выбрана строка для редактирования", "Ошибка!");
+            else
+            {
+                Data.Edit_id_group = ((DataRowView)DGrid.SelectedItems[0]).Row["id_group"].ToString();
+                Data.Edit_type_prav = ((DataRowView)DGrid.SelectedItems[0]).Row["type_prav"].ToString();
+                Data.Edit_size_group = ((DataRowView)DGrid.SelectedItems[0]).Row["size_group"].ToString();
 
+                EditGroup er = new EditGroup();
+                er.Show();
+                this.Close();
+            }
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)

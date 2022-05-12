@@ -62,7 +62,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AddGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddPrepod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,6 +90,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="AddGroup.xaml.cs">
+      <DependentUpon>AddGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddPrepod.xaml.cs">
       <DependentUpon>AddPrepod.xaml</DependentUpon>
     </Compile>
@@ -90,6 +101,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Classes\Data.cs" />
+    <Compile Include="EditGroup.xaml.cs">
+      <DependentUpon>EditGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditPrepod.xaml.cs">
       <DependentUpon>EditPrepod.xaml</DependentUpon>
     </Compile>

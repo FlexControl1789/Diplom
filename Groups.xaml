@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UchProcAutoStation"
         mc:Ignorable="d"
-        Title="Groups" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" Icon="/Images/icon.png" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" BorderThickness="3" BorderBrush="AntiqueWhite">
+        Title="Группы" Height="450" Width="800" WindowStyle="None" ResizeMode="NoResize" Icon="/Images/icon.png" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" BorderThickness="3" BorderBrush="AntiqueWhite">
     <Grid Background="#FFFFE0" MouseDown="Grid_MouseDown">
         <Grid.RowDefinitions>
             <RowDefinition Height="27*"></RowDefinition>
