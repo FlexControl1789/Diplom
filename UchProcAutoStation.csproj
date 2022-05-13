@@ -66,11 +66,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AddPredmet.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddPrepod.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditGroup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditPredmet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -93,6 +101,9 @@
     <Compile Include="AddGroup.xaml.cs">
       <DependentUpon>AddGroup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddPredmet.xaml.cs">
+      <DependentUpon>AddPredmet.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddPrepod.xaml.cs">
       <DependentUpon>AddPrepod.xaml</DependentUpon>
     </Compile>
@@ -103,6 +114,9 @@
     <Compile Include="Classes\Data.cs" />
     <Compile Include="EditGroup.xaml.cs">
       <DependentUpon>EditGroup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditPredmet.xaml.cs">
+      <DependentUpon>EditPredmet.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditPrepod.xaml.cs">
       <DependentUpon>EditPrepod.xaml</DependentUpon>
@@ -117,12 +131,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Predmets.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Prepodavatel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Predmets.xaml.cs">
+      <DependentUpon>Predmets.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Prepodavatel.xaml.cs">
       <DependentUpon>Prepodavatel.xaml</DependentUpon>
     </Compile>

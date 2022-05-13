@@ -23,46 +23,26 @@ using UchProcAutoStation.Classes;
 namespace UchProcAutoStation
 {
     /// <summary>
-    /// Логика взаимодействия для Prepodavatel.xaml
+    /// Логика взаимодействия для Predmets.xaml
     /// </summary>
-    public partial class Prepodavatel : Window
+    public partial class Predmets : Window
     {
         string connectionString;
         SqlDataAdapter adapter;
         DataTable deliveryTable;
-        public Prepodavatel()
+        int ID;
+        public Predmets()
         {
             InitializeComponent();
             connectionString = ConfigurationManager.ConnectionStrings["AutoSchool"].ConnectionString;
         }
 
-        private void RollUp_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void Close_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.DragMove();
-            }
-        }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ComboFilter.Items.Add("По ФИО");
-            ComboFilter.Items.Add("По специализации");
-            ComboFilter.Items.Add("По серии и номеру паспорта");
-            ComboFilter.Items.Add("По ИНН");
-            ComboFilter.Items.Add("По мобильному телефону");
-            ComboFilter.Items.Add("По Mail");
-            string sql = "select FIO, TypeUch, PassSerNom, INN, Numbers, Mail from PrepodsInstructors";
+            ComboFilter.Items.Add("По названию");
+            ComboFilter.Items.Add("По типу");
+            ComboFilter.Items.Add("По преподавателю");
+            string sql = "select Predmets.Name_Predmet, Predmets.Type_Zan, PrepodsInstructors.FIO from Predmets left outer join PrepodsInstructors on Predmets.ID_Prepod=PrepodsInstructors.ID_Prepod";
             deliveryTable = new DataTable();
             SqlConnection connection = null;
             try
@@ -85,35 +65,25 @@ namespace UchProcAutoStation
             }
         }
 
-        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (ComboFilter.SelectedIndex == 0)
+            if (e.ChangedButton == MouseButton.Left)
             {
-                deliveryTable.DefaultView.RowFilter = string.Format("[FIO] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 1)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[TypeUch] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 2)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[PassSerNom] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 3)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[INN] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 4)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[Numbers] LIKE '%{0}%'", FilterBox.Text);
-            }
-            else if (ComboFilter.SelectedIndex == 5)
-            {
-                deliveryTable.DefaultView.RowFilter = string.Format("[Mail] LIKE '%{0}%'", FilterBox.Text);
+                this.DragMove();
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private void RollUp_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void Close_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Delete1_Click(object sender, RoutedEventArgs e)
         {
             if (DGrid.SelectedIndex != -1)
             {
@@ -122,63 +92,66 @@ namespace UchProcAutoStation
                 SqlConnection sqlConnection = null;
                 sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
+                SqlCommand thisCommand = sqlConnection.CreateCommand();
+                thisCommand.CommandText = "select ID_Prepod from PrepodsInstructors where FIO='" + row["FIO"] + "'";
+                SqlDataReader thisReader = thisCommand.ExecuteReader();
+                thisReader.Read();
+                if (thisReader.HasRows)
+                {
+                    ID = Convert.ToInt32(thisReader["ID_Prepod"]);
+                }
+                thisReader.Close();
                 var command = sqlConnection.CreateCommand();
                 command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "DelPrepod";
-                command.Parameters.AddWithValue("@Del_FIO", row["FIO"]);
-                command.Parameters.AddWithValue("@Del_TypeUch", row["TypeUch"]);
-                command.Parameters.AddWithValue("@Del_PassSerNom", row["PassSerNom"]);
-                command.Parameters.AddWithValue("@Del_INN", row["INN"]);
-                command.Parameters.AddWithValue("@Del_Numbers",row["Numbers"]);
-                command.Parameters.AddWithValue("@Del_Mail", row["Mail"]);
+                command.CommandText = "DelPredmet";
+                command.Parameters.AddWithValue("@Del_Name_Predmet", row["Name_Predmet"]);
+                command.Parameters.AddWithValue("@Del_Type_Zan", row["Type_Zan"]);
+                command.Parameters.AddWithValue("@Del_ID", ID);
                 command.ExecuteNonQuery();
                 sqlConnection.Close();
-                Prepodavatel er = new Prepodavatel();
+                Predmets er = new Predmets();
                 er.Show();
                 this.Close();
             }
             else MessageBox.Show("Перед удалением выберите строку", "Ошибка!");
         }
 
-        private void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            if (DGrid.SelectedItems.Count == 0) MessageBox.Show("Не выбрана строка для редактирования","Ошибка!");
-            else
-            {
-                Data.Edit_FIO = ((DataRowView)DGrid.SelectedItems[0]).Row["FIO"].ToString();
-                Data.Edit_TypeUch = ((DataRowView)DGrid.SelectedItems[0]).Row["TypeUch"].ToString();
-                Data.Edit_PassSerNom = ((DataRowView)DGrid.SelectedItems[0]).Row["PassSerNom"].ToString();
-                Data.Edit_INN = ((DataRowView)DGrid.SelectedItems[0]).Row["INN"].ToString();
-                Data.Edit_Numbers = ((DataRowView)DGrid.SelectedItems[0]).Row["Numbers"].ToString();
-                Data.Edit_Mail = ((DataRowView)DGrid.SelectedItems[0]).Row["Mail"].ToString();
-
-                EditPrepod EP = new EditPrepod();
-                EP.Show();
-                this.Close();
-            }
-        }
-
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            AddPrepod AP = new AddPrepod();
-            AP.Show();
+            AddPredmet ap = new AddPredmet();
+            ap.Show();
             this.Close();
+        }
+
+        private void Edit_Click(object sender, RoutedEventArgs e)
+        {
+            if (DGrid.SelectedItems.Count == 0) MessageBox.Show("Не выбрана строка для редактирования", "Ошибка!");
+            else
+            {
+                Data.Edit_Name_Predmet = ((DataRowView)DGrid.SelectedItems[0]).Row["Name_Predmet"].ToString();
+                Data.Edit_Type_Zan = ((DataRowView)DGrid.SelectedItems[0]).Row["Type_Zan"].ToString();
+                Data.Edit_FIO_Pr = ((DataRowView)DGrid.SelectedItems[0]).Row["FIO"].ToString();
+
+                EditPredmet ep = new EditPredmet();
+                ep.Show();
+                this.Close();
+            }
         }
 
         private void ToPDF_Click(object sender, RoutedEventArgs e)
         {
             Document document = new Document();
-            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream("C:/Users/Public/Desktop/Преподаватели и инструкторы Список.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(document, new FileStream("C:/Users/Public/Desktop/Преподаватели и их предметы Список.pdf", FileMode.Create));
             document.Open();
             BaseFont baseFont = BaseFont.CreateFont("C:\\Windows\\Fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED);
             iTextSharp.text.Font font = new iTextSharp.text.Font(baseFont, iTextSharp.text.Font.DEFAULTSIZE, iTextSharp.text.Font.NORMAL);
             PdfPTable table = new PdfPTable(DGrid.Columns.Count);
-            PdfPCell cell = new PdfPCell(new Phrase("Преподаватели/Инструкторы", font));
+            PdfPCell cell = new PdfPCell(new Phrase("Преподаватели и их предметы", font));
             cell.Colspan = DGrid.Columns.Count;
             cell.HorizontalAlignment = 1;
             cell.Border = 0;
             table.AddCell(cell);
-            string[] name = { "ФИО", "Специализация", "Серия и номер паспорта", "ИНН", "Мобильный телефон", "Mail" };
+            string[] name = { "Название предметы", "Тип занятия", "Преподаватель" };
             for (int j = 0; j < DGrid.Columns.Count; j++)
             {
                 cell = new PdfPCell(new Phrase(name[j], font));
@@ -196,7 +169,7 @@ namespace UchProcAutoStation
             }
             document.Add(table);
             document.Close();
-            Process.Start("C:/Users/Public/Desktop/Преподаватели и инструкторы Список.pdf");
+            Process.Start("C:/Users/Public/Desktop/Преподаватели и их предметы Список.pdf");
         }
 
         private void ToExcel_Click(object sender, RoutedEventArgs e)
@@ -235,6 +208,22 @@ namespace UchProcAutoStation
         private void ComboFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             FilterBox.Clear();
+        }
+
+        private void FilterBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (ComboFilter.SelectedIndex == 0)
+            {
+                deliveryTable.DefaultView.RowFilter = string.Format("[Name_Predmet] LIKE '%{0}%'", FilterBox.Text);
+            }
+            else if (ComboFilter.SelectedIndex == 1)
+            {
+                deliveryTable.DefaultView.RowFilter = string.Format("[Type_Zan] LIKE '%{0}%'", FilterBox.Text);
+            }
+            else if (ComboFilter.SelectedIndex == 2)
+            {
+                deliveryTable.DefaultView.RowFilter = string.Format("[FIO] LIKE '%{0}%'", FilterBox.Text);
+            }
         }
     }
 }

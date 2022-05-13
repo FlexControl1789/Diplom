@@ -55,5 +55,17 @@ namespace UchProcAutoStation
             gr.Show();
             this.Close();
         }
+
+        private void Predmets_Click(object sender, RoutedEventArgs e)
+        {
+            Predmets pred = new Predmets();
+            pred.Show();
+            this.Close();
+        }
+
+        private void Rasp_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

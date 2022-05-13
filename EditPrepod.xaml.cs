@@ -76,7 +76,7 @@ namespace UchProcAutoStation
                         command.Parameters.AddWithValue("@New_Numbers", NumbersBox.Text);
                         command.Parameters.AddWithValue("@New_Mail", MailBox.Text);
                         command.ExecuteNonQuery();
-
+                        ThisConnection.Close();
                         Prepodavatel er = new Prepodavatel();
                         er.Show();
                         this.Close();

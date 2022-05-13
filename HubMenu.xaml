@@ -19,7 +19,7 @@
         </StackPanel>
         <Button x:Name="PrepodIsntruct" Content="Преподаватели/Инструкторы" HorizontalAlignment="Left" Margin="19,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="171" Height="32" Click="PrepodIsntruct_Click" BorderBrush="Black" Background="#FFD700"/>
         <Button x:Name="Groups" Content="Учебные группы" HorizontalAlignment="Left" Margin="199,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="130" Height="32" Click="Groups_Click" BorderBrush="Black" Background="#FFD700"/>
-        <Button x:Name="Predmets" IsEnabled="False" Content="Предметы" HorizontalAlignment="Left" Margin="339,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" Height="32" BorderBrush="Black" Background="#FFD700"/>
-        <Button x:Name="Rasp" IsEnabled="False" Content="Расписание занятий" HorizontalAlignment="Left" Margin="464,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Height="32" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Predmets" Content="Предметы" HorizontalAlignment="Left" Margin="339,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="117" Height="32" Click="Predmets_Click" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Rasp" Content="Расписание занятий" HorizontalAlignment="Left" Margin="464,72,0,0" Grid.Row="1" VerticalAlignment="Top" Width="119" Height="32" Click="Rasp_Click" BorderBrush="Black" Background="#FFD700"/>
     </Grid>
 </Window>

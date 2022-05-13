@@ -121,7 +121,7 @@ namespace UchProcAutoStation
                         command.Parameters.AddWithValue("@Add_Numbers", NumbersBox.Text);
                         command.Parameters.AddWithValue("@Add_Mail", MailBox.Text);
                         command.ExecuteNonQuery();
-
+                        ThisConnection.Close();
                         Prepodavatel er = new Prepodavatel();
                         er.Show();
                         this.Close();

@@ -120,6 +120,7 @@ namespace UchProcAutoStation
                 command.Parameters.AddWithValue("@Del_type_prav", row["type_prav"]);
                 command.Parameters.AddWithValue("@Del_size_group", row["size_group"]);
                 command.ExecuteNonQuery();
+                sqlConnection.Close();
                 Groups gr = new Groups();
                 gr.Show();
                 this.Close();

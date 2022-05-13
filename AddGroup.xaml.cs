@@ -75,7 +75,7 @@ namespace UchProcAutoStation
                 command.Parameters.AddWithValue("@Add_type_prav", CategoryCombo.Text);
                 command.Parameters.AddWithValue("@Add_size_group", SizeGroupBox.Text);
                 command.ExecuteNonQuery();
-
+                ThisConnection.Close();
                 Groups gr = new Groups();
                 gr.Show();
                 this.Close();

@@ -94,7 +94,7 @@ namespace UchProcAutoStation
                 command.Parameters.AddWithValue("@New_type_prav", CategoryCombo.Text);
                 command.Parameters.AddWithValue("@New_size_group", SizeGroupBox.Text);
                 command.ExecuteNonQuery();
-
+                ThisConnection.Close();
                 Groups gr = new Groups();
                 gr.Show();
                 this.Close();
