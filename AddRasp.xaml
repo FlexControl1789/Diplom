@@ -1,0 +1,34 @@
+﻿<Window x:Class="UchProcAutoStation.AddRasp"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UchProcAutoStation"
+        mc:Ignorable="d"
+        Title="Добавления занятия" Height="450" Width="453.247" ResizeMode="NoResize" WindowStyle="None" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" BorderThickness="3" BorderBrush="AntiqueWhite" Icon="/Images/icon.png">
+    <Grid Background="#FFFFE0" MouseDown="Grid_MouseDown">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27*"></RowDefinition>
+            <RowDefinition Height="194*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Width="70" Height="40">
+            <Image x:Name="RollUp" Height="25" Width="23" Margin="7" 
+                   Source="/Images/roll up button icon.png" MouseDown="RollUp_MouseDown"/>
+            <Image x:Name="Close" Height="25" Width="23" 
+                   Source="/Images/close button icon.png" MouseDown="Close_MouseDown"/>
+        </StackPanel>
+        <Label Content="День" FontSize="15" HorizontalAlignment="Left" Margin="147,41,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Время" FontSize="15" HorizontalAlignment="Left" Margin="138,93,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <ComboBox x:Name="TimeCombo" HorizontalAlignment="Left" Margin="201,101,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147"/>
+        <Label Content="Предмет" FontSize="15" HorizontalAlignment="Left" Margin="121,139,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Button x:Name="Add" Content="Добавить" HorizontalAlignment="Left" Margin="319,337,0,0" Grid.Row="1" VerticalAlignment="Top" Width="94" Click="Add_Click" Height="26" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Back" Content="Назад" HorizontalAlignment="Left" Margin="201,337,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="26" Click="Back_Click" BorderBrush="Black" Background="#FFD700"/>
+        <ComboBox x:Name="DayCombo" HorizontalAlignment="Left" Margin="201,49,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147"/>
+        <ComboBox x:Name="PredmCombo" HorizontalAlignment="Left" Margin="201,147,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147" SelectionChanged="PredmCombo_SelectionChanged"/>
+        <Label Content="Преподаватель" FontSize="15" HorizontalAlignment="Left" Margin="75,183,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <ComboBox IsEnabled="False" x:Name="PrepodCombo" HorizontalAlignment="Left" Margin="201,191,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147"/>
+        <Label Content="Группа" FontSize="15" HorizontalAlignment="Left" Margin="133,226,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <ComboBox x:Name="GroupCombo" HorizontalAlignment="Left" Margin="201,234,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147"/>
+
+    </Grid>
+</Window>

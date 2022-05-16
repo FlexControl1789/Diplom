@@ -54,7 +54,7 @@ namespace UchProcAutoStation
             Process.Start("http://лига-драйв.рф/index.php");
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Autorization_Click(object sender, RoutedEventArgs e)
         {
             SqlConnection ThisConnection = new SqlConnection(connectionString);
             ThisConnection.Open();

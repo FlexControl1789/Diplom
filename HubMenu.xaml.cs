@@ -65,7 +65,9 @@ namespace UchProcAutoStation
 
         private void Rasp_Click(object sender, RoutedEventArgs e)
         {
-
+            Raspisanie raspisanie = new Raspisanie();
+            raspisanie.Show();
+            this.Close();
         }
     }
 }

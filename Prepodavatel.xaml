@@ -25,13 +25,6 @@
                 <DataGridTextColumn Header="ИНН" Binding="{Binding Path=INN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=Numbers, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Mail" Binding="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTemplateColumn>
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button x:Name="Delete1" Content="Удалить" Click="Delete_Click"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button x:Name="Add" Content="Добавить" HorizontalAlignment="Left" Margin="178,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="81" Height="25" RenderTransformOrigin="0.662,0.524" Click="Add_Click" BorderBrush="Black" Background="#FFD700"/>
@@ -43,7 +36,8 @@
         <TextBox x:Name="FilterBox" HorizontalAlignment="Left" Height="23" Margin="166,68,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" TextChanged="FilterBox_TextChanged"/>
         <Label Content="Фильтрация данных:" FontSize="15" HorizontalAlignment="Left" Margin="10,61,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <ComboBox x:Name="ComboFilter" SelectedIndex="0" HorizontalAlignment="Left" Margin="393,68,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="23" SelectionChanged="ComboFilter_SelectionChanged"/>
-        <Button x:Name="Back" Content="Назад" HorizontalAlignment="Left" Margin="487,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="25" Click="Back_Click" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Back" Content="Назад" HorizontalAlignment="Left" Margin="518,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Height="25" Click="Back_Click" BorderBrush="Black" Background="#FFD700"/>
+        <Button x:Name="Delete" Content="Удалить" HorizontalAlignment="Left" Margin="393,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="92" Height="25" Click="Delete_Click" BorderBrush="Black" Background="#FFD700"/>
 
     </Grid>
 </Window>
