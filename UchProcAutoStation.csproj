@@ -65,6 +65,9 @@
     <Compile Include="AddRasp.xaml.cs">
       <DependentUpon>AddRasp.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditRasp.xaml.cs">
+      <DependentUpon>EditRasp.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Raspisanie.xaml.cs">
       <DependentUpon>Raspisanie.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="EditPrepod.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditRasp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

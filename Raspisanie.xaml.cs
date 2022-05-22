@@ -101,10 +101,10 @@ namespace UchProcAutoStation
                 Data.Edit_Name_Predmet_Rasp = ((DataRowView)DGrid.SelectedItems[0]).Row["Name_Predmet"].ToString();
                 Data.Edit_FIO_Rasp = ((DataRowView)DGrid.SelectedItems[0]).Row["FIO"].ToString();
                 Data.Edit_id_group_Rasp = ((DataRowView)DGrid.SelectedItems[0]).Row["id_group"].ToString();
-
-                /*EditRasp er = new EditRasp();
+                
+                EditRasp er = new EditRasp();
                 er.Show();
-                this.Close();*/
+                this.Close();
             }
         }
 

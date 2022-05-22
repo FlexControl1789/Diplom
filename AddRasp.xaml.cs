@@ -38,13 +38,13 @@ namespace UchProcAutoStation
             DayCombo.Items.Add("Четверг");
             DayCombo.Items.Add("Пятница");
             //
-            TimeCombo.Items.Add("08:00");
-            TimeCombo.Items.Add("09:30");
-            TimeCombo.Items.Add("11:00");
-            TimeCombo.Items.Add("12:30");
-            TimeCombo.Items.Add("13:30");
-            TimeCombo.Items.Add("15:00");
-            TimeCombo.Items.Add("16:30");
+            TimeCombo.Items.Add("08:00:00");
+            TimeCombo.Items.Add("09:30:00");
+            TimeCombo.Items.Add("11:00:00");
+            TimeCombo.Items.Add("12:30:00");
+            TimeCombo.Items.Add("13:30:00");
+            TimeCombo.Items.Add("15:00:00");
+            TimeCombo.Items.Add("16:30:00");
             //ЗАГРУЗКА ПРЕДМЕТОВ
             SqlConnection ThisConnection = null;
             ThisConnection = new SqlConnection(connectionString);
