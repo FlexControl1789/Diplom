@@ -21,7 +21,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ФИО" Binding="{Binding Path=FIO, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Специализация" Binding="{Binding Path=TypeUch, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                <DataGridTextColumn Header="Серия номер пасспорта" Binding="{Binding Path=PassSerNom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <DataGridTextColumn Header="Серия номер паспорта" Binding="{Binding Path=PassSerNom, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="ИНН" Binding="{Binding Path=INN, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Номер телефона" Binding="{Binding Path=Numbers, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 <DataGridTextColumn Header="Mail" Binding="{Binding Path=Mail, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>

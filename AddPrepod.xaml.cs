@@ -104,42 +104,46 @@ namespace UchProcAutoStation
         {
             if (FIOBox.Text != "" && TypeUchCombo.Text != "" && PassSerNomBox.Text != "" && INNBox.Text != "" && NumbersBox.Text != "" && MailBox.Text != "")
             {
-                if (MailBox.Text.Contains("@"))
+                if (PassSerNomBox.Text.Length == 10 && INNBox.Text.Length == 12 && NumbersBox.Text.Length == 11)
                 {
-                    if (MailBox.Text.Contains("gmail.com") || MailBox.Text.Contains("mail.ru") || MailBox.Text.Contains("yandex.ru") || MailBox.Text.Contains("ya.ru"))
+                    if (MailBox.Text.Contains("@"))
                     {
-                        SqlConnection ThisConnection = null;
-                        ThisConnection = new SqlConnection(connectionString);
-                        ThisConnection.Open();
-                        SqlCommand sql1Command = ThisConnection.CreateCommand();
-                        sql1Command.CommandText = "select FIO, TypeUch, PassSerNom, INN, Numbers, Mail from PrepodsInstructors where FIO='" + FIOBox.Text + "' and TypeUch='" + TypeUchCombo.Text + "' and PassSerNom='" + PassSerNomBox.Text + "' and INN='" + INNBox.Text + "' and Numbers='" + NumbersBox.Text + "' and Mail='" + MailBox.Text + "'";
-                        SqlDataReader sql1Reader = sql1Command.ExecuteReader();
-                        sql1Reader.Read();
-                        if (sql1Reader.HasRows)
+                        if (MailBox.Text.Contains("gmail.com") || MailBox.Text.Contains("mail.ru") || MailBox.Text.Contains("yandex.ru") || MailBox.Text.Contains("ya.ru"))
                         {
-                            MessageBox.Show("Такой преподаватель существует", "Ошибка!");
+                            SqlConnection ThisConnection = null;
+                            ThisConnection = new SqlConnection(connectionString);
+                            ThisConnection.Open();
+                            SqlCommand sql1Command = ThisConnection.CreateCommand();
+                            sql1Command.CommandText = "select FIO, TypeUch, PassSerNom, INN, Numbers, Mail from PrepodsInstructors where FIO='" + FIOBox.Text + "' and TypeUch='" + TypeUchCombo.Text + "' and PassSerNom='" + PassSerNomBox.Text + "' and INN='" + INNBox.Text + "' and Numbers='" + NumbersBox.Text + "' and Mail='" + MailBox.Text + "'";
+                            SqlDataReader sql1Reader = sql1Command.ExecuteReader();
+                            sql1Reader.Read();
+                            if (sql1Reader.HasRows)
+                            {
+                                MessageBox.Show("Такой преподаватель существует", "Ошибка!");
+                            }
+                            else
+                            {
+                                var command = ThisConnection.CreateCommand();
+                                command.CommandType = CommandType.StoredProcedure;
+                                command.CommandText = "AddPrepod";
+                                command.Parameters.AddWithValue("@Add_FIO", FIOBox.Text);
+                                command.Parameters.AddWithValue("@Add_TypeUch", TypeUchCombo.Text);
+                                command.Parameters.AddWithValue("@Add_PassSerNom", PassSerNomBox.Text);
+                                command.Parameters.AddWithValue("@Add_INN", INNBox.Text);
+                                command.Parameters.AddWithValue("@Add_Numbers", NumbersBox.Text);
+                                command.Parameters.AddWithValue("@Add_Mail", MailBox.Text);
+                                command.ExecuteNonQuery();
+                                ThisConnection.Close();
+                                Prepodavatel er = new Prepodavatel();
+                                er.Show();
+                                this.Close();
+                            }
                         }
-                        else
-                        {
-                            var command = ThisConnection.CreateCommand();
-                            command.CommandType = CommandType.StoredProcedure;
-                            command.CommandText = "AddPrepod";
-                            command.Parameters.AddWithValue("@Add_FIO", FIOBox.Text);
-                            command.Parameters.AddWithValue("@Add_TypeUch", TypeUchCombo.Text);
-                            command.Parameters.AddWithValue("@Add_PassSerNom", PassSerNomBox.Text);
-                            command.Parameters.AddWithValue("@Add_INN", INNBox.Text);
-                            command.Parameters.AddWithValue("@Add_Numbers", NumbersBox.Text);
-                            command.Parameters.AddWithValue("@Add_Mail", MailBox.Text);
-                            command.ExecuteNonQuery();
-                            ThisConnection.Close();
-                            Prepodavatel er = new Prepodavatel();
-                            er.Show();
-                            this.Close();
-                        }
+                        else MessageBox.Show("Указан некорректный адрес почты", "Ошибка!");
                     }
                     else MessageBox.Show("Указан некорректный адрес почты", "Ошибка!");
                 }
-                else MessageBox.Show("Указан некорректный адрес почты", "Ошибка!");
+                else MessageBox.Show("Поле ИНН, Серия и номер пасспорта или номер телефона заполнены некорректно!","Ошибка!");
             }
             else MessageBox.Show("Одно или несколько полей пусты"+Environment.NewLine+"Заполните поля перед добавлением","Ошибка!");
         }
