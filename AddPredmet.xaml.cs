@@ -101,6 +101,7 @@ namespace UchProcAutoStation
                 SqlConnection ThisConnection = null;
                 ThisConnection = new SqlConnection(connectionString);
                 ThisConnection.Open();
+                //ПОИСК ID ПРЕПОДАВАТЕЛЯ
                 SqlCommand thisCommand = ThisConnection.CreateCommand();
                 thisCommand.CommandText = "select ID_Prepod from PrepodsInstructors where FIO='" + FIOCombo.Text + "'";
                 SqlDataReader thisReader = thisCommand.ExecuteReader();
@@ -110,7 +111,7 @@ namespace UchProcAutoStation
                     ID = Convert.ToInt32(thisReader["ID_Prepod"]);
                 }
                 thisReader.Close();
-
+                //ПРОВЕРКА НА ДОБАВЛЕНИЕ ПОВТОРНОГО ПРЕДМЕТА
                 SqlCommand command2 = ThisConnection.CreateCommand();
                 command2.CommandText = "select Name_Predmet from Predmets";
                 SqlDataReader reader = command2.ExecuteReader();
@@ -119,26 +120,26 @@ namespace UchProcAutoStation
                 {
                     if (NamePredmetBox.Text == reader["Name_Predmet"].ToString())
                     {
-                        MessageBox.Show("Вы попытались внести в базу предмет, который уже был добавлен" + Environment.NewLine + "Попробуйте другой предмет","Ошибка!");
+                        MessageBox.Show("Вы попытались внести в базу предмет, который уже был добавлен" + Environment.NewLine + "Попробуйте другой предмет", "Ошибка!");
                         reader.Close();
                         NamePredmetBox.Clear();
                     }
-                }
-                else 
-                {
-                    reader.Close();
-                    var command = ThisConnection.CreateCommand();
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "AddPredmet";
-                    command.Parameters.AddWithValue("@Add_Name_Predmet", NamePredmetBox.Text);
-                    command.Parameters.AddWithValue("@Add_Type_Zan", TypeZanCombo.Text);
-                    command.Parameters.AddWithValue("@Add_ID_Prepod", ID);
-                    command.ExecuteNonQuery();
-                    ThisConnection.Close();
-                    Predmets pr = new Predmets();
-                    pr.Show();
-                    this.Close();
-                }  
+                    else
+                    {
+                        reader.Close();
+                        var command = ThisConnection.CreateCommand();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "AddPredmet";
+                        command.Parameters.AddWithValue("@Add_Name_Predmet", NamePredmetBox.Text);
+                        command.Parameters.AddWithValue("@Add_Type_Zan", TypeZanCombo.Text);
+                        command.Parameters.AddWithValue("@Add_ID_Prepod", ID);
+                        command.ExecuteNonQuery();
+                        ThisConnection.Close();
+                        Predmets pr = new Predmets();
+                        pr.Show();
+                        this.Close();
+                    }
+                }                  
             }
             else MessageBox.Show("Одно или несколько полей пусты", "Внимание!");
         }

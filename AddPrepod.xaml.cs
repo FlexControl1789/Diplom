@@ -120,9 +120,11 @@ namespace UchProcAutoStation
                             if (sql1Reader.HasRows)
                             {
                                 MessageBox.Show("Такой преподаватель существует", "Ошибка!");
+                                sql1Reader.Close();
                             }
                             else
                             {
+                                sql1Reader.Close();
                                 var command = ThisConnection.CreateCommand();
                                 command.CommandType = CommandType.StoredProcedure;
                                 command.CommandText = "AddPrepod";

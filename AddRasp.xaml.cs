@@ -143,20 +143,31 @@ namespace UchProcAutoStation
                 else
                 {
                     reader4.Close();
-                    //ДОБАВЛЕНИЕ ЗАНЯТИЯ В РАСПИСАНИЕ
-                    var command = ThisConnection.CreateCommand();
-                    command.CommandType = CommandType.StoredProcedure;
-                    command.CommandText = "AddRasp";
-                    command.Parameters.AddWithValue("@Add_DayZan", DayCombo.Text);
-                    command.Parameters.AddWithValue("@Add_TimeZan", TimeCombo.Text);
-                    command.Parameters.AddWithValue("@Add_ID_Predm_Rasp", ID_PREDMET);
-                    command.Parameters.AddWithValue("@Add_ID_Prepod_Rasp", ID_PREPOD);
-                    command.Parameters.AddWithValue("@Add_ID_Gr_Rasp", ID_GROUP);
-                    command.ExecuteNonQuery();
-                    ThisConnection.Close();
-                    Raspisanie pr = new Raspisanie();
-                    pr.Show();
-                    this.Close();
+                    //ПРОВЕРКА НА ПОПЫТКУ ВВОДА ЗАНЯТИЯ С КОНФЛИКТОМ ГРУППЫ
+                    SqlCommand command5 = ThisConnection.CreateCommand();
+                    command5.CommandText = "select DayZan, TimeZan, ID_Gr from Rasp where DayZan='" + DayCombo.Text + "' and TimeZan='" + TimeCombo.Text + "' and ID_Gr='" + ID_GROUP + "'";
+                    SqlDataReader reader5 = command5.ExecuteReader();
+                    if (reader5.HasRows)
+                    {
+                        MessageBox.Show("У этой группы уже есть занятие на этот день и время","Ошибка!");
+                    }
+                    else
+                    {
+                        //ДОБАВЛЕНИЕ ЗАНЯТИЯ В РАСПИСАНИЕ
+                        var command = ThisConnection.CreateCommand();
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.CommandText = "AddRasp";
+                        command.Parameters.AddWithValue("@Add_DayZan", DayCombo.Text);
+                        command.Parameters.AddWithValue("@Add_TimeZan", TimeCombo.Text);
+                        command.Parameters.AddWithValue("@Add_ID_Predm_Rasp", ID_PREDMET);
+                        command.Parameters.AddWithValue("@Add_ID_Prepod_Rasp", ID_PREPOD);
+                        command.Parameters.AddWithValue("@Add_ID_Gr_Rasp", ID_GROUP);
+                        command.ExecuteNonQuery();
+                        ThisConnection.Close();
+                        Raspisanie pr = new Raspisanie();
+                        pr.Show();
+                        this.Close();
+                    }                   
                 }                                             
             }
             else MessageBox.Show("Одно или несколько полей пусты", "Внимание!");

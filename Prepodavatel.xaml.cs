@@ -117,25 +117,53 @@ namespace UchProcAutoStation
         {
             if (DGrid.SelectedIndex != -1)
             {
-                DataRowView rowView = (DataRowView)DGrid.SelectedItem;
-                DataRow row = rowView.Row;
-                SqlConnection sqlConnection = null;
-                sqlConnection = new SqlConnection(connectionString);
-                sqlConnection.Open();
-                var command = sqlConnection.CreateCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "DelPrepod";
-                command.Parameters.AddWithValue("@Del_FIO", row["FIO"]);
-                command.Parameters.AddWithValue("@Del_TypeUch", row["TypeUch"]);
-                command.Parameters.AddWithValue("@Del_PassSerNom", row["PassSerNom"]);
-                command.Parameters.AddWithValue("@Del_INN", row["INN"]);
-                command.Parameters.AddWithValue("@Del_Numbers",row["Numbers"]);
-                command.Parameters.AddWithValue("@Del_Mail", row["Mail"]);
-                command.ExecuteNonQuery();
-                sqlConnection.Close();
-                Prepodavatel er = new Prepodavatel();
-                er.Show();
-                this.Close();
+                int id = 0;
+                SqlConnection Connection23 = null;
+                Connection23 = new SqlConnection(connectionString);
+                Connection23.Open();
+                //Вытягиваем ID нового преподавателя для предмета
+                SqlCommand thisCommand23 = Connection23.CreateCommand();
+                thisCommand23.CommandText = "select ID_Prepod from PrepodsInstructors where FIO='" + ((DataRowView)DGrid.SelectedItems[0]).Row["FIO"].ToString() + "'";
+                SqlDataReader Reader23 = thisCommand23.ExecuteReader();
+                Reader23.Read();
+                if (Reader23.HasRows)
+                {
+                    id = Convert.ToInt32(Reader23["ID_Prepod"]);
+                }
+                Reader23.Close();
+
+                SqlCommand thisCommand24 = Connection23.CreateCommand();
+                thisCommand24.CommandText = "select ID_Prepod from Predmets where ID_Prepod='" + id + "'";
+                SqlDataReader Reader24 = thisCommand24.ExecuteReader();
+                Reader24.Read();
+                if (Reader24.HasRows)
+                {
+                    MessageBox.Show("Нельзя удалить преподавателя, так как с ним связан предмет", "Ошибка!");
+                    Reader24.Close();
+                }
+                else
+                {
+                    Reader24.Close();
+                    DataRowView rowView = (DataRowView)DGrid.SelectedItem;
+                    DataRow row = rowView.Row;
+                    SqlConnection sqlConnection = null;
+                    sqlConnection = new SqlConnection(connectionString);
+                    sqlConnection.Open();
+                    var command = sqlConnection.CreateCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "DelPrepod";
+                    command.Parameters.AddWithValue("@Del_FIO", row["FIO"]);
+                    command.Parameters.AddWithValue("@Del_TypeUch", row["TypeUch"]);
+                    command.Parameters.AddWithValue("@Del_PassSerNom", row["PassSerNom"]);
+                    command.Parameters.AddWithValue("@Del_INN", row["INN"]);
+                    command.Parameters.AddWithValue("@Del_Numbers", row["Numbers"]);
+                    command.Parameters.AddWithValue("@Del_Mail", row["Mail"]);
+                    command.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    Prepodavatel er = new Prepodavatel();
+                    er.Show();
+                    this.Close();
+                }              
             }
             else MessageBox.Show("Перед удалением выберите строку", "Ошибка!");
         }

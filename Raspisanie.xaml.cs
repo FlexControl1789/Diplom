@@ -39,6 +39,7 @@ namespace UchProcAutoStation
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            ComboFilter.Items.Add("По дню");
             ComboFilter.Items.Add("По времени");
             ComboFilter.Items.Add("По предмету");
             ComboFilter.Items.Add("По преподавателю");
