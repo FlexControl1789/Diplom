@@ -68,17 +68,31 @@ namespace UchProcAutoStation
                 SqlConnection ThisConnection = null;
                 ThisConnection = new SqlConnection(connectionString);
                 ThisConnection.Open();
-                var command = ThisConnection.CreateCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "AddGroup";
-                command.Parameters.AddWithValue("@Add_id_group", NameGroupBox.Text);
-                command.Parameters.AddWithValue("@Add_type_prav", CategoryCombo.Text);
-                command.Parameters.AddWithValue("@Add_size_group", SizeGroupBox.Text);
-                command.ExecuteNonQuery();
-                ThisConnection.Close();
-                Groups gr = new Groups();
-                gr.Show();
-                this.Close();
+
+                SqlCommand command0 = ThisConnection.CreateCommand();
+                command0.CommandText = "select id_group from Groups where id_group='" + NameGroupBox.Text + "'";
+                SqlDataReader reader0 = command0.ExecuteReader();
+                reader0.Read();
+                if (reader0.HasRows)
+                {
+                    MessageBox.Show("Группа с таким названием уже существует","Ошибка!");
+                    reader0.Close();
+                }
+                else
+                {
+                    reader0.Close();
+                    var command = ThisConnection.CreateCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "AddGroup";
+                    command.Parameters.AddWithValue("@Add_id_group", NameGroupBox.Text);
+                    command.Parameters.AddWithValue("@Add_type_prav", CategoryCombo.Text);
+                    command.Parameters.AddWithValue("@Add_size_group", SizeGroupBox.Text);
+                    command.ExecuteNonQuery();
+                    ThisConnection.Close();
+                    Groups gr = new Groups();
+                    gr.Show();
+                    this.Close();
+                }
             }
             else MessageBox.Show("Одно или несколько полей пусты","Внимание!");
         }

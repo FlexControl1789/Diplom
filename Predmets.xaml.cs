@@ -30,7 +30,7 @@ namespace UchProcAutoStation
         string connectionString;
         SqlDataAdapter adapter;
         DataTable deliveryTable;
-        int ID;
+        int ID,ID_PREDM;
         public Predmets()
         {
             InitializeComponent();
@@ -101,17 +101,40 @@ namespace UchProcAutoStation
                     ID = Convert.ToInt32(thisReader["ID_Prepod"]);
                 }
                 thisReader.Close();
-                var command = sqlConnection.CreateCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "DelPredmet";
-                command.Parameters.AddWithValue("@Del_Name_Predmet", row["Name_Predmet"]);
-                command.Parameters.AddWithValue("@Del_Type_Zan", row["Type_Zan"]);
-                command.Parameters.AddWithValue("@Del_ID", ID);
-                command.ExecuteNonQuery();
-                sqlConnection.Close();
-                Predmets er = new Predmets();
-                er.Show();
-                this.Close();
+                SqlCommand command0 = sqlConnection.CreateCommand();
+                command0.CommandText = "select ID_Predm from Predmets where Name_Predmet='" + row["Name_Predmet"] + "'";
+                SqlDataReader reader0 = command0.ExecuteReader();
+                reader0.Read();
+                if (reader0.HasRows)
+                {
+                    ID_PREDM = Convert.ToInt32(reader0["ID_Predm"]);
+                }
+                reader0.Close();
+
+                SqlCommand command05 = sqlConnection.CreateCommand();
+                command05.CommandText = "select ID_Predm from Rasp where ID_Predm='" + ID_PREDM + "'";
+                SqlDataReader reader05 = command05.ExecuteReader();
+                reader05.Read();
+                if (reader05.HasRows)
+                {
+                    MessageBox.Show("Вы попытались удалить предмет, который уже участвует в расписании","Ошибка!");
+                    reader05.Close();
+                }
+                else
+                {
+                    reader05.Close();
+                    var command = sqlConnection.CreateCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "DelPredmet";
+                    command.Parameters.AddWithValue("@Del_Name_Predmet", row["Name_Predmet"]);
+                    command.Parameters.AddWithValue("@Del_Type_Zan", row["Type_Zan"]);
+                    command.Parameters.AddWithValue("@Del_ID", ID);
+                    command.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    Predmets er = new Predmets();
+                    er.Show();
+                    this.Close();
+                }
             }
             else MessageBox.Show("Перед удалением выберите строку", "Ошибка!");
         }

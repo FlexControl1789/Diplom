@@ -30,6 +30,7 @@ namespace UchProcAutoStation
         string connectionString;
         SqlDataAdapter adapter;
         DataTable deliveryTable;
+        int ID_Gr = 0;
         public Groups()
         {
             InitializeComponent(); 
@@ -113,17 +114,37 @@ namespace UchProcAutoStation
                 SqlConnection sqlConnection = null;
                 sqlConnection = new SqlConnection(connectionString);
                 sqlConnection.Open();
-                var command = sqlConnection.CreateCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "DelGroup";
-                command.Parameters.AddWithValue("@Del_id_group", row["id_group"]);
-                command.Parameters.AddWithValue("@Del_type_prav", row["type_prav"]);
-                command.Parameters.AddWithValue("@Del_size_group", row["size_group"]);
-                command.ExecuteNonQuery();
-                sqlConnection.Close();
-                Groups gr = new Groups();
-                gr.Show();
-                this.Close();
+                SqlCommand command0 = sqlConnection.CreateCommand();
+                command0.CommandText = "select ID_Gr from Groups where id_group='" + row["id_group"] + "'";
+                SqlDataReader reader0 = command0.ExecuteReader();
+                reader0.Read();
+                if (reader0.HasRows)
+                {
+                    ID_Gr = Convert.ToInt32(reader0["ID_Gr"]);
+                }
+                reader0.Close();
+                SqlCommand command05 = sqlConnection.CreateCommand();
+                command05.CommandText = "select ID_Gr from Rasp where ID_Gr='" + ID_Gr + "'";
+                SqlDataReader reader05 = command05.ExecuteReader();
+                reader05.Read();
+                if (reader05.HasRows)
+                {
+                    MessageBox.Show("Данная группа участвует в расписании","Ошибка!");
+                }
+                else
+                {
+                    var command = sqlConnection.CreateCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "DelGroup";
+                    command.Parameters.AddWithValue("@Del_id_group", row["id_group"]);
+                    command.Parameters.AddWithValue("@Del_type_prav", row["type_prav"]);
+                    command.Parameters.AddWithValue("@Del_size_group", row["size_group"]);
+                    command.ExecuteNonQuery();
+                    sqlConnection.Close();
+                    Groups gr = new Groups();
+                    gr.Show();
+                    this.Close();
+                }
             }
             else MessageBox.Show("Перед удалением выберите строку", "Ошибка!");
         }
