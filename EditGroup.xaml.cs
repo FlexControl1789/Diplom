@@ -80,24 +80,31 @@ namespace UchProcAutoStation
         {
             if (NameGroupBox.Text != "" && CategoryCombo.Text != "" && SizeGroupBox.Text != "")
             {
-                SqlConnection ThisConnection = null;
-                ThisConnection = new SqlConnection(connectionString);
-                ThisConnection.Open();
-                var command = ThisConnection.CreateCommand();
-                command.CommandType = CommandType.StoredProcedure;
-                command.CommandText = "UpdGroup";
-                command.Parameters.AddWithValue("@Old_id_group", Data.Edit_id_group);
-                command.Parameters.AddWithValue("@Old_type_prav", Data.Edit_type_prav);
-                command.Parameters.AddWithValue("@Old_size_group", Data.Edit_size_group);
+                if (NameGroupBox.Text == Data.Edit_id_group && CategoryCombo.Text == Data.Edit_type_prav && SizeGroupBox.Text == Data.Edit_size_group)
+                {
+                    MessageBox.Show("Вы не сделали изменений","Ошибка!");
+                }
+                else
+                {
+                    SqlConnection ThisConnection = null;
+                    ThisConnection = new SqlConnection(connectionString);
+                    ThisConnection.Open();
+                    var command = ThisConnection.CreateCommand();
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.CommandText = "UpdGroup";
+                    command.Parameters.AddWithValue("@Old_id_group", Data.Edit_id_group);
+                    command.Parameters.AddWithValue("@Old_type_prav", Data.Edit_type_prav);
+                    command.Parameters.AddWithValue("@Old_size_group", Data.Edit_size_group);
 
-                command.Parameters.AddWithValue("@New_id_group", NameGroupBox.Text);
-                command.Parameters.AddWithValue("@New_type_prav", CategoryCombo.Text);
-                command.Parameters.AddWithValue("@New_size_group", SizeGroupBox.Text);
-                command.ExecuteNonQuery();
-                ThisConnection.Close();
-                Groups gr = new Groups();
-                gr.Show();
-                this.Close();
+                    command.Parameters.AddWithValue("@New_id_group", NameGroupBox.Text);
+                    command.Parameters.AddWithValue("@New_type_prav", CategoryCombo.Text);
+                    command.Parameters.AddWithValue("@New_size_group", SizeGroupBox.Text);
+                    command.ExecuteNonQuery();
+                    ThisConnection.Close();
+                    Groups gr = new Groups();
+                    gr.Show();
+                    this.Close();
+                }       
             }
             else MessageBox.Show("Одно или несколько полей пусты","Внимание!");
         }

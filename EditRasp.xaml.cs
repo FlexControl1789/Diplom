@@ -152,69 +152,76 @@ namespace UchProcAutoStation
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            //ПОИСК ID ПРЕПОДАВАТЕЛЯ
-            SqlConnection ThisConnection = null;
-            ThisConnection = new SqlConnection(connectionString);
-            ThisConnection.Open();
-            SqlCommand thisCommand = ThisConnection.CreateCommand();
-            thisCommand.CommandText = "select ID_Prepod from PrepodsInstructors where FIO='" + PrepodCombo.Text + "'";
-            SqlDataReader thisReader = thisCommand.ExecuteReader();
-            thisReader.Read();
-            if (thisReader.HasRows)
+            if (DayCombo.Text == Data.Edit_DayZan && TimeCombo.Text == Data.Edit_TimeZan && PredmCombo.Text == Data.Edit_Name_Predmet_Rasp && PrepodCombo.Text == Data.Edit_FIO_Rasp && GroupCombo.Text == Data.Edit_id_group_Rasp)
             {
-                ID_PREPOD = Convert.ToInt32(thisReader["ID_Prepod"]);
+                MessageBox.Show("Вы не сделали изменений","Ошибка!");
             }
-            thisReader.Close();
-            //ПОИСК ID ПРЕДМЕТА
-            SqlCommand command2 = ThisConnection.CreateCommand();
-            command2.CommandText = "select ID_Predm from Predmets where Name_Predmet='" + PredmCombo.Text + "'";
-            SqlDataReader thisReader2 = command2.ExecuteReader();
-            thisReader2.Read();
-            if (thisReader2.HasRows)
+            else
             {
-                ID_PREDMET = Convert.ToInt32(thisReader2["ID_Predm"]);
-            }
-            thisReader2.Close();
-            //ПОИСК ID ГРУППЫ
-            SqlCommand command3 = ThisConnection.CreateCommand();
-            command3.CommandText = "select ID_Gr from Groups where id_group='" + GroupCombo.Text.ToString() + "'";
-            SqlDataReader thisReader3 = command3.ExecuteReader();
-            thisReader3.Read();
-            if (thisReader3.HasRows)
-            {
-                ID_GROUP = Convert.ToInt32(thisReader3["ID_Gr"]);
-            }
-            thisReader3.Close();
-            //ПРОВЕРКА НА ПОПЫТКУ ВВОДА ЗАНЯТИЯ С ТЕМИ ЖЕ ДАННЫМИ
-            SqlCommand command4 = ThisConnection.CreateCommand();
-            command4.CommandText = "select DayZan, TimeZan, ID_Prepod from Rasp where ID_Prepod='" + ID_PREPOD + "' and TimeZan='" + TimeCombo.Text + "' and DayZan='" + DayCombo.Text + "'";
-            SqlDataReader reader4 = command4.ExecuteReader();
-            if (reader4.HasRows)
-            {
-                MessageBox.Show("Занятие на такой день и время с таким преподавателем уже существует", "Ошибка!");
+                //ПОИСК ID ПРЕПОДАВАТЕЛЯ
+                SqlConnection ThisConnection = null;
+                ThisConnection = new SqlConnection(connectionString);
+                ThisConnection.Open();
+                SqlCommand thisCommand = ThisConnection.CreateCommand();
+                thisCommand.CommandText = "select ID_Prepod from PrepodsInstructors where FIO='" + PrepodCombo.Text + "'";
+                SqlDataReader thisReader = thisCommand.ExecuteReader();
+                thisReader.Read();
+                if (thisReader.HasRows)
+                {
+                    ID_PREPOD = Convert.ToInt32(thisReader["ID_Prepod"]);
+                }
+                thisReader.Close();
+                //ПОИСК ID ПРЕДМЕТА
+                SqlCommand command2 = ThisConnection.CreateCommand();
+                command2.CommandText = "select ID_Predm from Predmets where Name_Predmet='" + PredmCombo.Text + "'";
+                SqlDataReader thisReader2 = command2.ExecuteReader();
+                thisReader2.Read();
+                if (thisReader2.HasRows)
+                {
+                    ID_PREDMET = Convert.ToInt32(thisReader2["ID_Predm"]);
+                }
+                thisReader2.Close();
+                //ПОИСК ID ГРУППЫ
+                SqlCommand command3 = ThisConnection.CreateCommand();
+                command3.CommandText = "select ID_Gr from Groups where id_group='" + GroupCombo.Text.ToString() + "'";
+                SqlDataReader thisReader3 = command3.ExecuteReader();
+                thisReader3.Read();
+                if (thisReader3.HasRows)
+                {
+                    ID_GROUP = Convert.ToInt32(thisReader3["ID_Gr"]);
+                }
+                thisReader3.Close();
+                //ПРОВЕРКА НА ПОПЫТКУ ВВОДА ЗАНЯТИЯ С ТЕМИ ЖЕ ДАННЫМИ
+                SqlCommand command4 = ThisConnection.CreateCommand();
+                command4.CommandText = "select DayZan, TimeZan, ID_Prepod from Rasp where ID_Prepod='" + ID_PREPOD + "' and TimeZan='" + TimeCombo.Text + "' and DayZan='" + DayCombo.Text + "'";
+                SqlDataReader reader4 = command4.ExecuteReader();
+                if (reader4.HasRows)
+                {
+                    MessageBox.Show("Занятие на такой день и время с таким преподавателем уже существует", "Ошибка!");
+                    reader4.Close();
+                }
                 reader4.Close();
-            }         
-                reader4.Close();
-            //ДОБАВЛЕНИЕ ЗАНЯТИЯ В РАСПИСАНИЕ
-            var command = ThisConnection.CreateCommand();
-            command.CommandType = CommandType.StoredProcedure;
-            command.CommandText = "UpdRasp";
-            command.Parameters.AddWithValue("@Old_DayZan", Data.Edit_DayZan);
-            command.Parameters.AddWithValue("@Old_TimeZan", Data.Edit_TimeZan);
-            command.Parameters.AddWithValue("@Old_ID_Predm", ID_PREDMET_OLD);
-            command.Parameters.AddWithValue("@Old_ID_Prepod", ID_PREPOD_OLD);
-            command.Parameters.AddWithValue("@Old_ID_Gr", ID_GROUP_OLD);
+                //ДОБАВЛЕНИЕ ЗАНЯТИЯ В РАСПИСАНИЕ
+                var command = ThisConnection.CreateCommand();
+                command.CommandType = CommandType.StoredProcedure;
+                command.CommandText = "UpdRasp";
+                command.Parameters.AddWithValue("@Old_DayZan", Data.Edit_DayZan);
+                command.Parameters.AddWithValue("@Old_TimeZan", Data.Edit_TimeZan);
+                command.Parameters.AddWithValue("@Old_ID_Predm", ID_PREDMET_OLD);
+                command.Parameters.AddWithValue("@Old_ID_Prepod", ID_PREPOD_OLD);
+                command.Parameters.AddWithValue("@Old_ID_Gr", ID_GROUP_OLD);
 
-            command.Parameters.AddWithValue("@New_DayZan", DayCombo.Text);
-            command.Parameters.AddWithValue("@New_TimeZan", TimeCombo.Text);
-            command.Parameters.AddWithValue("@New_ID_Predm", ID_PREDMET);
-            command.Parameters.AddWithValue("@New_ID_Prepod", ID_PREPOD);
-            command.Parameters.AddWithValue("@New_ID_Gr", ID_GROUP);
-            command.ExecuteNonQuery();
-            ThisConnection.Close();
-            Raspisanie pr = new Raspisanie();
-            pr.Show();
-            this.Close();
+                command.Parameters.AddWithValue("@New_DayZan", DayCombo.Text);
+                command.Parameters.AddWithValue("@New_TimeZan", TimeCombo.Text);
+                command.Parameters.AddWithValue("@New_ID_Predm", ID_PREDMET);
+                command.Parameters.AddWithValue("@New_ID_Prepod", ID_PREPOD);
+                command.Parameters.AddWithValue("@New_ID_Gr", ID_GROUP);
+                command.ExecuteNonQuery();
+                ThisConnection.Close();
+                Raspisanie pr = new Raspisanie();
+                pr.Show();
+                this.Close();
+            }           
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)

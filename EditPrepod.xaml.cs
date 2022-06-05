@@ -50,36 +50,43 @@ namespace UchProcAutoStation
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            if (FIOBox.Text != null && TypeUchCombo.Text != null && PassSerNomBox.Text != null && INNBox.Text != null && NumbersBox.Text != null && MailBox.Text != null)
+            if (FIOBox.Text != "" && TypeUchCombo.Text != "" && PassSerNomBox.Text != "" && INNBox.Text != "" && NumbersBox.Text != "" && MailBox.Text != "")
             {
                 if (MailBox.Text.Contains("@"))
                 {
                     if (MailBox.Text.Contains("gmail.com") || MailBox.Text.Contains("mail.ru") || MailBox.Text.Contains("yandex.ru") || MailBox.Text.Contains("ya.ru"))
                     {
-                        SqlConnection ThisConnection = null;
-                        ThisConnection = new SqlConnection(connectionString);
-                        ThisConnection.Open();
-                        var command = ThisConnection.CreateCommand();
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.CommandText = "UpdPrepod";
-                        command.Parameters.AddWithValue("@Old_FIO", Data.Edit_FIO);
-                        command.Parameters.AddWithValue("@Old_TypeUch", Data.Edit_TypeUch);
-                        command.Parameters.AddWithValue("@Old_PassSerNom", Data.Edit_PassSerNom);
-                        command.Parameters.AddWithValue("@Old_INN", Data.Edit_INN);
-                        command.Parameters.AddWithValue("@Old_Numbers", Data.Edit_Numbers);
-                        command.Parameters.AddWithValue("@Old_Mail", Data.Edit_Mail);
+                        if (FIOBox.Text == Data.Edit_FIO && TypeUchCombo.Text == Data.Edit_TypeUch && PassSerNomBox.Text == Data.Edit_PassSerNom && INNBox.Text == Data.Edit_INN && NumbersBox.Text == Data.Edit_Numbers && MailBox.Text == Data.Edit_Mail)
+                        {
+                            MessageBox.Show("Вы не сделали изменений","Ошибка!");
+                        }
+                        else
+                        {
+                            SqlConnection ThisConnection = null;
+                            ThisConnection = new SqlConnection(connectionString);
+                            ThisConnection.Open();
+                            var command = ThisConnection.CreateCommand();
+                            command.CommandType = CommandType.StoredProcedure;
+                            command.CommandText = "UpdPrepod";
+                            command.Parameters.AddWithValue("@Old_FIO", Data.Edit_FIO);
+                            command.Parameters.AddWithValue("@Old_TypeUch", Data.Edit_TypeUch);
+                            command.Parameters.AddWithValue("@Old_PassSerNom", Data.Edit_PassSerNom);
+                            command.Parameters.AddWithValue("@Old_INN", Data.Edit_INN);
+                            command.Parameters.AddWithValue("@Old_Numbers", Data.Edit_Numbers);
+                            command.Parameters.AddWithValue("@Old_Mail", Data.Edit_Mail);
 
-                        command.Parameters.AddWithValue("@New_FIO", FIOBox.Text);
-                        command.Parameters.AddWithValue("@New_TypeUch", TypeUchCombo.Text);
-                        command.Parameters.AddWithValue("@New_PassSerNom", PassSerNomBox.Text);
-                        command.Parameters.AddWithValue("@New_INN", INNBox.Text);
-                        command.Parameters.AddWithValue("@New_Numbers", NumbersBox.Text);
-                        command.Parameters.AddWithValue("@New_Mail", MailBox.Text);
-                        command.ExecuteNonQuery();
-                        ThisConnection.Close();
-                        Prepodavatel er = new Prepodavatel();
-                        er.Show();
-                        this.Close();
+                            command.Parameters.AddWithValue("@New_FIO", FIOBox.Text);
+                            command.Parameters.AddWithValue("@New_TypeUch", TypeUchCombo.Text);
+                            command.Parameters.AddWithValue("@New_PassSerNom", PassSerNomBox.Text);
+                            command.Parameters.AddWithValue("@New_INN", INNBox.Text);
+                            command.Parameters.AddWithValue("@New_Numbers", NumbersBox.Text);
+                            command.Parameters.AddWithValue("@New_Mail", MailBox.Text);
+                            command.ExecuteNonQuery();
+                            ThisConnection.Close();
+                            Prepodavatel er = new Prepodavatel();
+                            er.Show();
+                            this.Close();
+                        }                        
                     }
                     else MessageBox.Show("Указан некорректный адрес почты", "Ошибка!");
                 }
