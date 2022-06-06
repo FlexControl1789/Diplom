@@ -149,10 +149,12 @@ namespace UchProcAutoStation
                     SqlDataReader reader5 = command5.ExecuteReader();
                     if (reader5.HasRows)
                     {
+                        reader5.Close();
                         MessageBox.Show("У этой группы уже есть занятие на этот день и время","Ошибка!");
                     }
                     else
                     {
+                        reader5.Close();
                         //ДОБАВЛЕНИЕ ЗАНЯТИЯ В РАСПИСАНИЕ
                         var command = ThisConnection.CreateCommand();
                         command.CommandType = CommandType.StoredProcedure;
